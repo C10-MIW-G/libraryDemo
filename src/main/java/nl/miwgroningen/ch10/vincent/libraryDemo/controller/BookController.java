@@ -19,7 +19,7 @@ import java.util.ArrayList;
 @Controller
 public class BookController {
 
-    @GetMapping("/books")
+    @GetMapping({"/books/all", "/"})
     protected String showBookOverview(Model model) {
         DBaccess dBaccess = new DBaccess("libraryDemo",
                 "userLibrary", "userLibraryPW");
