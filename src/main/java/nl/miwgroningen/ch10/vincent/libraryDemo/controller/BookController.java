@@ -7,7 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.Optional;
 
 /**
  * @author Vincent Velthuizen <v.r.velthuizen@pl.hanze.nl>
@@ -37,6 +40,18 @@ public class BookController {
         return "bookForm";
     }
 
+    @GetMapping("/books/edit/{bookId}")
+    protected String showEditBookForm(@PathVariable("bookId") Long bookId, Model model) {
+        Optional<Book> book = bookRepository.findById(bookId);
+
+        if (book.isPresent()) {
+            model.addAttribute("book", book.get());
+            return "bookForm";
+        }
+
+        return "redirect:/books/all";
+    }
+
     @PostMapping("/books/new")
     protected String saveBook(@ModelAttribute("book") Book bookToBeSaved, BindingResult result) {
         if (!result.hasErrors()) {
@@ -44,4 +59,17 @@ public class BookController {
         }
         return "redirect:/books/all";
     }
+
+    @GetMapping("/books/delete/{bookId}")
+    protected String deleteBook(@PathVariable("bookId") Long bookId) {
+        Optional<Book> book = bookRepository.findById(bookId);
+
+        if (book.isPresent()) {
+            bookRepository.delete(book.get());
+        }
+
+        return "redirect:/books/all";
+    }
+
+
 }
