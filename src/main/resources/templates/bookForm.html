@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Maak een nieuw boek</title>
+  <link rel="stylesheet" type="text/css" href="/css/library.css"/>
+</head>
+<body>
+
+    <h1>Maak een nieuw boek</h1>
+
+    <form th:action="@{/books/new}" method="post" th:object="${book}">
+        <table>
+            <tr>
+                <td>Titel</td>
+                <td><input type="text" th:field="*{title}"></td>
+            </tr>
+            <tr>
+                <td>Auteur</td>
+                <td><input type="text" th:field="*{author}"></td>
+            </tr>
+        </table>
+        <input type="submit" value="Sla boek op">
+    </form>
+
+</body>
+</html>
