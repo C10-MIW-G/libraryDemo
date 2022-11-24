@@ -16,7 +16,7 @@
             <th>copies</th>
         </tr>
         <tr th:each="book : ${allBooks}">
-            <td th:text="${book.title}"></td>
+            <td><a th:href="@{/books/details/{bookId}(bookId=${book.bookId})}"  th:text="${book.title}">Titel</a></td>
             <td th:text="${book.author}"></td>
             <td><a th:href="@{/books/delete/{bookId}(bookId=${book.bookId})}">Delete</a></td>
             <td><a th:href="@{/books/edit/{bookId}(bookId=${book.bookId})}">Edit</a></td>

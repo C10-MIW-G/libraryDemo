@@ -34,6 +34,18 @@ public class BookController {
         return "bookOverview";
     }
 
+    @GetMapping("/books/details/{bookId}")
+    protected String showBookDetails(@PathVariable("bookId") Long bookId, Model model) {
+        Optional<Book> book = bookRepository.findById(bookId);
+
+        if (book.isPresent()) {
+            model.addAttribute("book", book.get());
+            return "bookDetails";
+        }
+
+        return "redirect:/books/all";
+    }
+
     @GetMapping("/books/new")
     protected String showNewBookForm(Model model) {
         model.addAttribute("book", new Book());
