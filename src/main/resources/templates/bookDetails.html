@@ -13,9 +13,9 @@
             <td>Titel</td>
             <td th:text="${book.title}"></td>
         </tr>
-        <tr>
+        <tr th:each="author : ${book.authors}">
             <td>Auteur</td>
-            <td th:text="${book.author}"></td>
+            <td th:text="${author.displayName}"></td>
         </tr>
         <tr>
             <td>Aantal beschikbaar</td>

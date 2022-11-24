@@ -1,6 +1,7 @@
 package nl.miwgroningen.ch10.vincent.libraryDemo.controller;
 
 import nl.miwgroningen.ch10.vincent.libraryDemo.model.Book;
+import nl.miwgroningen.ch10.vincent.libraryDemo.repository.AuthorRepository;
 import nl.miwgroningen.ch10.vincent.libraryDemo.repository.BookRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +21,11 @@ import java.util.Optional;
 
 @Controller
 public class BookController {
-
+    private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
 
-    public BookController(BookRepository bookRepository) {
+    public BookController(AuthorRepository authorRepository, BookRepository bookRepository) {
+        this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
     }
 
@@ -34,9 +36,9 @@ public class BookController {
         return "bookOverview";
     }
 
-    @GetMapping("/books/details/{bookId}")
-    protected String showBookDetails(@PathVariable("bookId") Long bookId, Model model) {
-        Optional<Book> book = bookRepository.findById(bookId);
+    @GetMapping("/books/details/{title}")
+    protected String showBookDetails(@PathVariable("title") String title, Model model) {
+        Optional<Book> book = bookRepository.findByTitle(title);
 
         if (book.isPresent()) {
             model.addAttribute("book", book.get());
@@ -49,6 +51,7 @@ public class BookController {
     @GetMapping("/books/new")
     protected String showNewBookForm(Model model) {
         model.addAttribute("book", new Book());
+        model.addAttribute("allAuthors", authorRepository.findAll());
         return "bookForm";
     }
 
@@ -58,6 +61,7 @@ public class BookController {
 
         if (book.isPresent()) {
             model.addAttribute("book", book.get());
+            model.addAttribute("allAuthors", authorRepository.findAll());
             return "bookForm";
         }
 

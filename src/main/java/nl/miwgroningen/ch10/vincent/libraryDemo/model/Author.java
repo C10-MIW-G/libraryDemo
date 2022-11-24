@@ -34,4 +34,9 @@ public class Author {
 
         return displayName + " " + lastName;
     }
+
+    @Override
+    public String toString() {
+        return getDisplayName();
+    }
 }

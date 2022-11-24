@@ -4,11 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Vincent Velthuizen <v.r.velthuizen@pl.hanze.nl>
@@ -24,7 +22,9 @@ public class Book {
     private Long bookId;
 
     private String title;
-    private String author;
+
+    @ManyToMany
+    private Set<Author> authors;
 
     @OneToMany(mappedBy = "book")
     private List<Copy> copies;
@@ -39,5 +39,15 @@ public class Book {
         }
 
         return count;
+    }
+
+    public String getAuthorsDisplayString() {
+        StringBuilder builder = new StringBuilder();
+
+        for (Author author : authors) {
+            builder.append(author).append(", ");
+        }
+
+        return builder.toString();
     }
 }
