@@ -16,16 +16,27 @@
             <td>Auteur</td>
             <td th:text="${book.author}"></td>
         </tr>
+        <tr>
+            <td>Aantal beschikbaar</td>
+            <td th:text="${book.numberOfAvailableCopies}"></td>
+        </tr>
     </table>
+
+    <a th:href="@{/books/all}">Terug naar overzicht</a>
 
     <table>
         <tr>
             <th>copyId</th>
-            <th>Beschikbaar</th>
+            <th>Leens status</th>
         </tr>
         <tr th:each="copy : ${book.copies}">
             <td th:text="${copy.copyId}"></td>
-            <td th:text="${copy.available}"></td>
+            <td th:if="${copy.available}">
+                <a th:href="@{/copy/borrow/{copyId}(copyId=${copy.copyId})}">Leen</a>
+            </td>
+            <td th:unless="${copy.available}">
+                <a th:href="@{/copy/return/{copyId}(copyId=${copy.copyId})}">Breng terug</a>
+            </td>
         </tr>
     </table>
 

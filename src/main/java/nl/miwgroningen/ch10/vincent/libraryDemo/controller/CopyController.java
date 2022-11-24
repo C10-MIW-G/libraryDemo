@@ -40,4 +40,30 @@ public class CopyController {
 
         return "redirect:/books/all";
     }
+
+    @GetMapping("/borrow/{copyId}")
+    protected String makeCopyUnavailable(@PathVariable("copyId") Long copyId) {
+        Optional<Copy> copy = copyRepository.findById(copyId);
+
+        if (copy.isPresent() && copy.get().getAvailable()) {
+            copy.get().setAvailable(false);
+            copyRepository.save(copy.get());
+            return "redirect:/books/details/" + copy.get().getBook().getBookId();
+        }
+
+        return "redirect:/books/all";
+    }
+
+    @GetMapping("/return/{copyId}")
+    protected String makeCopyAvailable(@PathVariable("copyId") Long copyId) {
+        Optional<Copy> copy = copyRepository.findById(copyId);
+
+        if (copy.isPresent() && !copy.get().getAvailable()) {
+            copy.get().setAvailable(true);
+            copyRepository.save(copy.get());
+            return "redirect:/books/details/" + copy.get().getBook().getBookId();
+        }
+
+        return "redirect:/books/all";
+    }
 }
