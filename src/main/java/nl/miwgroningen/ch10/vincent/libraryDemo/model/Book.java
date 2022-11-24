@@ -1,10 +1,14 @@
 package nl.miwgroningen.ch10.vincent.libraryDemo.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 /**
  * @author Vincent Velthuizen <v.r.velthuizen@pl.hanze.nl>
@@ -12,7 +16,7 @@ import javax.persistence.Id;
  * Dit is een boek
  */
 
-@Entity
+@Entity @Getter @Setter
 public class Book {
 
     @Id
@@ -22,27 +26,18 @@ public class Book {
     private String title;
     private String author;
 
-    public Long getBookId() {
-        return bookId;
-    }
+    @OneToMany(mappedBy = "book")
+    private List<Copy> copies;
 
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
-    }
+    public int getNumberOfAvailableCopies() {
+        int count = 0;
 
-    public String getTitle() {
-        return title;
-    }
+        for (Copy copy : copies) {
+            if (copy.getAvailable()) {
+                count++;
+            }
+        }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
+        return count;
     }
 }
