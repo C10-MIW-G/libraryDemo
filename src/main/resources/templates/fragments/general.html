@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head th:replace="fragments/general :: baseHeader(~{:: title})">
-    <title>Overzicht van de boeken</title>
+<head th:fragment="baseHeader(title)">
+    <meta charset="UTF-8">
+    <title th:replace="${title}">Dit is een algemene titel</title>
+    <link rel="stylesheet" type="text/css" href="/css/library.css"/>
 </head>
 <body>
-
-    <div th:replace="fragments/general :: navbar"></div>
-
+<div th:fragment="navbar">
+    <a th:href="@{/authors/all}">Auteurs</a>
+    <a th:href="@{/books/all}">Boeken</a>
+</div>
     <h1>Overzicht van de boeken</h1>
     <table>
         <tr>
@@ -30,6 +33,9 @@
 
     <a th:href="@{/books/new}">Maak nieuw boek</a>
 
-    <div th:replace="fragments/general :: footer"></div>
+<div th:fragment="footer">
+    <footer>Copyright Vincent Velthuizen &copy;2022</footer>
+</div>
+
 </body>
 </html>
