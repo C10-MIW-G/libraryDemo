@@ -8,8 +8,14 @@
 </head>
 <body>
 <div th:fragment="navbar">
-    <a th:href="@{/authors/all}">Auteurs</a>
-    <a th:href="@{/books/all}">Boeken</a>
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/authors/all}">Auteurs</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/books/all}">Boeken</a>
+        </li>
+    </ul>
 </div>
     <h1>Overzicht van de boeken</h1>
     <table>
