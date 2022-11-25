@@ -36,13 +36,28 @@ public class BookController {
         return "bookOverview";
     }
 
+    @GetMapping("/books/details/id/{bookId}")
+    protected String showBookDetails(@PathVariable("bookId") Long bookId, Model model) {
+        Optional<Book> book = bookRepository.findById(bookId);
+
+        if (book.isPresent()) {
+            return showDetailsForBook(model, book);
+        }
+
+        return "redirect:/books/all";
+    }
+
+    private static String showDetailsForBook(Model model, Optional<Book> book) {
+        model.addAttribute("bookToShowDetailsFor", book.get());
+        return "bookDetails";
+    }
+
     @GetMapping("/books/details/{title}")
     protected String showBookDetails(@PathVariable("title") String title, Model model) {
         Optional<Book> book = bookRepository.findByTitle(title);
 
         if (book.isPresent()) {
-            model.addAttribute("book", book.get());
-            return "bookDetails";
+            return showDetailsForBook(model, book);
         }
 
         return "redirect:/books/all";
@@ -50,9 +65,7 @@ public class BookController {
 
     @GetMapping("/books/new")
     protected String showNewBookForm(Model model) {
-        model.addAttribute("book", new Book());
-        model.addAttribute("allAuthors", authorRepository.findAll());
-        return "bookForm";
+        return showBookFormForBook(model, new Book());
     }
 
     @GetMapping("/books/edit/{bookId}")
@@ -60,12 +73,16 @@ public class BookController {
         Optional<Book> book = bookRepository.findById(bookId);
 
         if (book.isPresent()) {
-            model.addAttribute("book", book.get());
-            model.addAttribute("allAuthors", authorRepository.findAll());
-            return "bookForm";
+            return showBookFormForBook(model, book.get());
         }
 
         return "redirect:/books/all";
+    }
+
+    private String showBookFormForBook(Model model, Book book) {
+        model.addAttribute("book", book);
+        model.addAttribute("allAuthors", authorRepository.findAll());
+        return "bookForm";
     }
 
     @PostMapping("/books/new")

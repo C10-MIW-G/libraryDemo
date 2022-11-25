@@ -8,20 +8,20 @@
 <div th:replace="fragments/general :: navbar"></div>
 
 <div class="container">
-    <h1>Details van boek: <span th:text="${book.title}"></span></h1>
+    <h1>Details van boek: <span th:text="${bookToShowDetailsFor.title}"></span></h1>
 
     <table>
         <tr>
             <td>Titel</td>
-            <td th:text="${book.title}"></td>
+            <td th:text="${bookToShowDetailsFor.title}"></td>
         </tr>
-        <tr th:each="author : ${book.authors}">
+        <tr th:each="author : ${bookToShowDetailsFor.authors}">
             <td>Auteur</td>
             <td th:text="${author.displayName}"></td>
         </tr>
         <tr>
             <td>Aantal beschikbaar</td>
-            <td th:text="${book.numberOfAvailableCopies}"></td>
+            <td th:text="${bookToShowDetailsFor.numberOfAvailableCopies}"></td>
         </tr>
     </table>
 
@@ -32,7 +32,7 @@
             <th>copyId</th>
             <th>Leens status</th>
         </tr>
-        <tr th:each="copy : ${book.copies}">
+        <tr th:each="copy : ${bookToShowDetailsFor.copies}">
             <td th:text="${copy.copyId}"></td>
             <td th:if="${copy.available}">
                 <a th:href="@{/copy/borrow/{copyId}(copyId=${copy.copyId})}">Leen</a>

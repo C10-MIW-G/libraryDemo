@@ -48,7 +48,7 @@ public class CopyController {
         if (copy.isPresent() && copy.get().getAvailable()) {
             copy.get().setAvailable(false);
             copyRepository.save(copy.get());
-            return "redirect:/books/details/" + copy.get().getBook().getBookId();
+            return "redirect:/books/details/id/" + copy.get().getBook().getBookId();
         }
 
         return "redirect:/books/all";
@@ -61,7 +61,7 @@ public class CopyController {
         if (copy.isPresent() && !copy.get().getAvailable()) {
             copy.get().setAvailable(true);
             copyRepository.save(copy.get());
-            return "redirect:/books/details/" + copy.get().getBook().getBookId();
+            return "redirect:/books/details/id/" + copy.get().getBook().getBookId();
         }
 
         return "redirect:/books/all";
