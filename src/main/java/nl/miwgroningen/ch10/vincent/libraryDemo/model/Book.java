@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +30,10 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Copy> copies;
 
+    public Book() {
+        copies = new ArrayList<>();
+    }
+
     public int getNumberOfAvailableCopies() {
         int count = 0;
 
@@ -49,5 +54,9 @@ public class Book {
         }
 
         return builder.toString();
+    }
+
+    public void addCopy(Copy copy) {
+        copies.add(copy);
     }
 }

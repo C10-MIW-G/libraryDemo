@@ -17,6 +17,7 @@ import javax.persistence.Id;
 @Entity @Getter @Setter
 public class Author {
 
+    private static final String DEFAULT_INFIX_NAME = "";
     @Id
     @GeneratedValue
     private Long authorId;
@@ -24,6 +25,19 @@ public class Author {
     private String firstName;
     private String infixName;
     private String lastName;
+
+    public Author(String firstName, String infixName, String lastName) {
+        this.firstName = firstName;
+        this.infixName = infixName;
+        this.lastName = lastName;
+    }
+
+    public Author(String firstName, String lastName) {
+        this(firstName, DEFAULT_INFIX_NAME, lastName);
+    }
+
+    public Author() {
+    }
 
     public String getDisplayName() {
         String displayName = firstName;
